@@ -32,7 +32,10 @@ export default async function page({
         </div>
         {/*video*/}
         <div className="flex-1  flex items-center justify-center  p-2 ">
-          <Video videoPlayBackId={videoPlayBackId}></Video>
+          <Video
+            videoPlayBackId={videoPlayBackId}
+            key={videoPlayBackId}
+          ></Video>
         </div>
       </div>
     </div>

@@ -15,15 +15,16 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(uuid())
+  id            String         @id @default(uuid())
   name          String
-  email         String    @unique
+  email         String         @unique
   password      String?
   image         String?
   emailVerified DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @default(now())
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now())
   Accounts      Account[]
+  UserProgress  UserProgress[]
 }
 
 model Account {
@@ -55,15 +56,16 @@ model Course {
 }
 
 model Lesson {
-  id          String   @id @default(uuid())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  title       String
-  description String
-  position    Int
-  course      Course?  @relation(fields: [courseId], references: [id])
-  courseId    String?
-  Video       Video?
+  id           String         @id @default(uuid())
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  title        String
+  description  String
+  position     Int
+  course       Course?        @relation(fields: [courseId], references: [id])
+  courseId     String?
+  Video        Video?
+  UserProgress UserProgress[]
 }
 
 model Video {
@@ -73,4 +75,18 @@ model Video {
   playbackId String
   lesson     Lesson   @relation(fields: [lessonId], references: [id])
   lessonId   String   @unique
+}
+
+model UserProgress {
+  id          String   @id @default(cuid())
+  userId      String
+  lessonId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isCompleted Boolean  @default(true)
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
 }

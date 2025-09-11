@@ -94,7 +94,7 @@ export default function NavBar() {
         ) : (
           <Button
             variant={"secondary"}
-            className="border-1 cursor-pointer"
+            className="border-2 cursor-pointer  glow-once border-color"
             onClick={() => {
               setShowForm(true);
             }}

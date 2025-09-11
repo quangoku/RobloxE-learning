@@ -36,7 +36,6 @@ export default function SignUp({ onClose }: SignUpProps) {
       alert("Passwords do not match");
       return;
     }
-    // TODO: call API sign up
 
     const res = await fetch("http://localhost:3000/api/signin", {
       method: "post",

@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
 
   if (isExisted) {
     return NextResponse.json(
-      { message: "User already existed!!!" },
+      { message: "Email already existed!!!" },
       { status: 409 }
     );
   }

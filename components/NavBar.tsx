@@ -19,7 +19,6 @@ import { Skeleton } from "./ui/skeleton";
 export default function NavBar() {
   const [showForm, setShowForm] = useState(false);
   const session = useSession();
-  console.log(session);
   return (
     <div className="flex items-center justify-center px-10 py-3 border-b-2 relative mb-3">
       <Link className="absolute left-10" href={"/"}>

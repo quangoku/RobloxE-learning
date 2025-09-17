@@ -5,13 +5,13 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "sonner";
 export default function Profile() {
   const session = useSession();
   const data = session.data;
-
   const [isEditing, setIsEditing] = useState(false);
   const [newUsername, setNewUsername] = useState("");
-
+  const [file, setFile] = useState<File | null>(null);
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -34,7 +34,25 @@ export default function Profile() {
       setIsEditing(false);
     }
   }
-
+  async function handleSubmitImg(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/user/uploadAvatar", {
+        method: "post",
+        body: formData,
+      });
+      if (res.ok) {
+        const data = await res.json();
+        await session.update({ image: data.url });
+        toast.success("Updated successfully", { action: { label: "X" } });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setFile(null);
+  }
   return (
     <div className="space-y-3 border-b-2 pb-8">
       <div className="flex items-center gap-2">
@@ -82,23 +100,51 @@ export default function Profile() {
             alt="User img"
             width={100}
             height={100}
-            className="rounded-full cursor-pointer  "
+            className="rounded-full cursor-pointer object-cover w-30 h-30 "
           />
         )}
 
         <div className="flex-1 space-y-2">
-          <form action="" className="flex">
-            <Button
-              variant="outline"
-              onClick={(e) => {
-                e.preventDefault();
-                inputRef.current.click();
+          <form action="" className="flex" onSubmit={handleSubmitImg}>
+            {file === null ? (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  inputRef.current.click();
+                }}
+                className="cursor-pointer"
+              >
+                Choose File
+              </Button>
+            ) : (
+              <>
+                <Button type="submit" className="cursor-pointer">
+                  Submit
+                </Button>
+                <p>{file.name}</p>
+                <p
+                  className="text-red-400 ml-5 cursor-pointer"
+                  onClick={() => {
+                    setFile(null);
+                  }}
+                >
+                  X
+                </p>
+              </>
+            )}
+            <input
+              type="file"
+              ref={inputRef}
+              name="file"
+              hidden
+              onChange={(e) => {
+                if (e.target.files[0].size > 2 * 1024 * 1024) {
+                  toast.warning("File's Size too large");
+                } else {
+                  setFile(e.target.files[0]);
+                }
               }}
-              className="cursor-pointer"
-            >
-              Choose File
-            </Button>
-            <input type="file" hidden ref={inputRef} />
+            />
           </form>
           <p className="text-gray-500">
             The ideal image size is 192 x 192 pixels. The maximum file size

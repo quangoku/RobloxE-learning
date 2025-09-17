@@ -26,7 +26,7 @@ export default function UserIcon() {
           alt="User img"
           width={30}
           height={30}
-          className="rounded-full cursor-pointer"
+          className="rounded-full cursor-pointer object-cover w-9 h-9 "
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent>

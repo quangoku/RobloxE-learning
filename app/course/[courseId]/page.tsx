@@ -43,9 +43,11 @@ export default async function Page({
         </div>
         <p className="text-lg font-semibold mb-2">{course.title}</p>
         <p className="text-gray-700 mb-4">{course.description}</p>
-        <Button className="w-full cursor-pointer hover:scale-[1.02]">
-          START
-        </Button>
+        <Link href={`/course/${courseId}/lesson/${lessons[0].id}`}>
+          <Button className="w-full cursor-pointer hover:scale-[1.02]">
+            Start
+          </Button>
+        </Link>
       </div>
     </div>
   );

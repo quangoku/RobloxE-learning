@@ -11,6 +11,7 @@ interface Course {
   title: string;
   description: string;
   image: string;
+  progress: number;
 }
 
 export default function Card({ course }: { course: Course }) {
@@ -18,9 +19,11 @@ export default function Card({ course }: { course: Course }) {
 
   const session = useSession();
   const router = useRouter();
+
   function handleRedirect() {
-    if (session.data) {
+    if (session.status == "authenticated") {
       router.push(`/course/${course.id}`);
+      console.log(session);
     } else {
       setShowForm(true);
     }
@@ -42,8 +45,15 @@ export default function Card({ course }: { course: Course }) {
         </div>
         <p className="text-lg font-semibold mb-2">{course.title}</p>
         <p className="text-gray-700 mb-4">{course.description}</p>
-        <Progress value={10} className="h-2 rounded-full" />
+        <div className="flex items-center gap-2">
+          <Progress
+            value={course.progress}
+            className="h-2 rounded-full flex-1"
+          />
+          <span className="text-sm font-medium ">{course.progress}%</span>
+        </div>
       </div>
+
       {showForm ? (
         <SignIn
           onClose={() => {

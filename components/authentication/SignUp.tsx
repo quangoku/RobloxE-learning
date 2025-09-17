@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Input } from "../ui/input";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import SignIn from "./SignIn";
+import { toast } from "sonner";
 
 type SignUpProps = {
   onClose: () => void;
 };
 
 export default function SignUp({ onClose }: SignUpProps) {
-  const [err, setErr] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [openSignIn, setOpenSignIn] = useState(false);
@@ -32,20 +32,44 @@ export default function SignUp({ onClose }: SignUpProps) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (data.password !== data.confirmPassword) {
-      alert("Passwords do not match");
+    if (!data.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      toast.warning("Invalid  email", {
+        duration: 3000,
+        action: {
+          label: "x",
+        },
+      });
+      return;
+    } else if (data.password !== data.confirmPassword) {
+      toast.warning("Confirm Password didn't match", {
+        duration: 3000,
+        action: {
+          label: "x",
+        },
+      });
       return;
     }
 
-    const res = await fetch("http://localhost:3000/api/signin", {
+    const res = await fetch("api/signin", {
       method: "post",
       body: JSON.stringify({ data }),
     });
     const mess = await res.json();
     if (!res.ok) {
-      setErr(mess.message);
+      toast.warning(mess.message, {
+        duration: 3000,
+        action: {
+          label: "x",
+        },
+      });
     } else {
       setOpenSignIn(true);
+      toast.success("Account created successfully", {
+        duration: 3000,
+        action: {
+          label: "x",
+        },
+      });
     }
   }
 
@@ -134,7 +158,6 @@ export default function SignUp({ onClose }: SignUpProps) {
           </div>
 
           {/* Submit */}
-          {err ? <p className="text-red-400 text-center">{err}</p> : ""}
 
           <button
             type="submit"

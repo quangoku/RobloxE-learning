@@ -15,9 +15,11 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { Skeleton } from "./ui/skeleton";
 export default function NavBar() {
   const [showForm, setShowForm] = useState(false);
   const session = useSession();
+  console.log(session);
   return (
     <div className="flex items-center justify-center px-10 py-3 border-b-2 relative mb-3">
       <Link className="absolute left-10" href={"/"}>
@@ -89,7 +91,9 @@ export default function NavBar() {
 
       <div className="absolute right-10 flex items-center gap-4">
         <ThemeToggle />
-        {session.data ? (
+        {session.status === "loading" ? (
+          <Skeleton className="size-8 rounded-full"></Skeleton>
+        ) : session.status == "authenticated" ? (
           <UserIcon />
         ) : (
           <Button

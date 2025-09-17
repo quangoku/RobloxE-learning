@@ -1,3 +1,4 @@
+"use server";
 import prisma from "./prisma";
 export async function getAllCourse() {
   const courses = await prisma.course.findMany();
@@ -28,6 +29,7 @@ export async function getLessonById(id: string) {
       id: id,
     },
   });
+  return lesson;
 }
 export async function getVideoPlayBackIdByLessonId(lessonId: string) {
   const video = await prisma.video.findUnique({
@@ -36,4 +38,62 @@ export async function getVideoPlayBackIdByLessonId(lessonId: string) {
     },
   });
   return video?.playbackId;
+}
+export async function isFinishedProgress(userId: string, lessonId: string) {
+  const progress = await prisma.userProgress.findUnique({
+    where: {
+      userId_lessonId: {
+        userId,
+        lessonId,
+      },
+    },
+  });
+  return progress?.isCompleted;
+}
+export async function ToggleUserProgress(userId: string, lessonId: string) {
+  const existing = await prisma.userProgress.findUnique({
+    where: {
+      userId_lessonId: {
+        userId,
+        lessonId,
+      },
+    },
+  });
+  if (existing) {
+    return prisma.userProgress.update({
+      where: {
+        userId_lessonId: {
+          userId,
+          lessonId,
+        },
+      },
+      data: {
+        isCompleted: !existing.isCompleted,
+      },
+    });
+  } else {
+    return prisma.userProgress.create({
+      data: {
+        userId,
+        lessonId,
+        isCompleted: true,
+      },
+    });
+  }
+}
+export async function getUserProgress(courseId: string, userId: string) {
+  const lessons = await getLessonsByCourseId(courseId);
+  const lessonIds = lessons.map((l) => l.id);
+  if (lessons.length === 0) return 0;
+  const finished = await prisma.userProgress.findMany({
+    where: {
+      isCompleted: true,
+      lessonId: { in: lessonIds },
+      userId: userId,
+    },
+  });
+  if (finished.length === 0) {
+    return 0;
+  }
+  return Math.floor((finished.length / lessons.length) * 100);
 }

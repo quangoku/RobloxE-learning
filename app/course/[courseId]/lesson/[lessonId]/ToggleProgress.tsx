@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { ToggleUserProgress } from "@/lib/data";
+import { ToggleUserProgress } from "@/lib/action";
 import { toast } from "sonner";
 import React, { useState } from "react";
 
@@ -13,7 +13,7 @@ export default function ToggleProgress({
   userId: string;
   lessonId: string;
 }) {
-  const [state, setState] = useState(isDone);
+  const [isfinished, setIsfinished] = useState(isDone);
   const [loading, setLoading] = useState(false);
 
   const handleToggle = async () => {
@@ -21,7 +21,7 @@ export default function ToggleProgress({
     try {
       const res = await ToggleUserProgress(userId, lessonId);
       if (res) {
-        setState(res.isCompleted);
+        setIsfinished(res.isCompleted);
         toast.success("Updated Successfully", {
           duration: 3000,
           description: new Date(res.updatedAt).toLocaleString("en-US"),
@@ -45,7 +45,7 @@ export default function ToggleProgress({
           : "hover:scale-105 hover:bg-green-200"
       }`}
     >
-      {loading ? "Updating..." : state ? "Mark UnDone" : "Mark Done"}
+      {loading ? "Updating..." : isfinished ? "Mark UnDone" : "Mark Done"}
     </Button>
   );
 }

@@ -1,7 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import React from "react";
-
 export default function Password() {
   return (
     <div className="space-y-7 mt-6 border-b-2 pb-8">

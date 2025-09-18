@@ -21,7 +21,7 @@ export default function Card({ course }: { course: Course }) {
   const router = useRouter();
 
   function handleRedirect() {
-    if (session.status == "authenticated") {
+    if (session.status === "authenticated") {
       router.push(`/course/${course.id}`);
       console.log(session);
     } else {

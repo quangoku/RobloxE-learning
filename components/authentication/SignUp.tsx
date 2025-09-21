@@ -4,9 +4,9 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import SignIn from "./SignIn";
 import { toast } from "sonner";
 
-type SignUpProps = {
+interface SignUpProps {
   onClose: () => void;
-};
+}
 
 export default function SignUp({ onClose }: SignUpProps) {
   const [showPassword, setShowPassword] = useState(false);
@@ -37,6 +37,7 @@ export default function SignUp({ onClose }: SignUpProps) {
         duration: 3000,
         action: {
           label: "x",
+          onClick: () => {},
         },
       });
       return;
@@ -45,21 +46,25 @@ export default function SignUp({ onClose }: SignUpProps) {
         duration: 3000,
         action: {
           label: "x",
+          onClick: () => {},
         },
       });
       return;
     }
 
     const res = await fetch("api/signin", {
-      method: "post",
+      method: "POST",
       body: JSON.stringify({ data }),
     });
+
     const mess = await res.json();
+
     if (!res.ok) {
       toast.warning(mess.message, {
         duration: 3000,
         action: {
           label: "x",
+          onClick: () => {},
         },
       });
     } else {
@@ -68,6 +73,7 @@ export default function SignUp({ onClose }: SignUpProps) {
         duration: 3000,
         action: {
           label: "x",
+          onClick: () => {},
         },
       });
     }
@@ -161,7 +167,7 @@ export default function SignUp({ onClose }: SignUpProps) {
 
           <button
             type="submit"
-            className="w-full bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-xl font-medium shadow-md transition duration-200"
+            className="w-full cursor-pointer bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-xl font-medium shadow-md transition duration-200"
           >
             Sign Up
           </button>

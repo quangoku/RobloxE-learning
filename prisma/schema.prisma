@@ -15,15 +15,16 @@ datasource db {
 }
 
 model User {
-  id           String         @id @default(uuid())
-  name         String
-  email        String         @unique
-  password     String?
-  image        String?
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @default(now())
-  Accounts     Account[]
-  UserProgress UserProgress[]
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now())
+  Accounts      Account[]
+  UserProgress  UserProgress[]
 }
 
 model Account {

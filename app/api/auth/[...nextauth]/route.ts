@@ -42,38 +42,38 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile }) {
-      if (account.provider === "google") {
-        const existingUser = await prisma.user.findUnique({
-          where: { email: user.email },
-        });
-        if (existingUser) {
-          await prisma.account.upsert({
-            where: {
-              provider_providerAccountId: {
-                provider: "google",
-                providerAccountId: profile.sub,
-              },
-            },
-            update: {},
-            create: {
-              userId: existingUser.id,
-              provider: "google",
-              providerAccountId: profile?.sub,
-              type: "oauth",
-              access_token: account.access_token!,
-              refresh_token: account.refresh_token!,
-              expires_at: account.expires_at!,
-              token_type: account.token_type!,
-              scope: account.scope,
-              id_token: account.id_token,
-            },
-          });
-          return true;
-        }
-      }
-      return true;
-    },
+    // async signIn({ user, account, profile }) {
+    //   if (account.provider === "google") {
+    //     const existingUser = await prisma.user.findUnique({
+    //       where: { email: user.email },
+    //     });
+    //     if (existingUser) {
+    //       await prisma.account.upsert({
+    //         where: {
+    //           provider_providerAccountId: {
+    //             provider: "google",
+    //             providerAccountId: profile.sub,
+    //           },
+    //         },
+    //         update: {},
+    //         create: {
+    //           userId: existingUser.id,
+    //           provider: "google",
+    //           providerAccountId: profile?.sub,
+    //           type: "oauth",
+    //           access_token: account.access_token!,
+    //           refresh_token: account.refresh_token!,
+    //           expires_at: account.expires_at!,
+    //           token_type: account.token_type!,
+    //           scope: account.scope,
+    //           id_token: account.id_token,
+    //         },
+    //       });
+    //       return true;
+    //     }
+    //   }
+    //   return true;
+    // },
     async jwt({ token, user, trigger, session }) {
       if (trigger === "update") {
         if (session?.name) {

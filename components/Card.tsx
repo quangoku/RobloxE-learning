@@ -4,7 +4,8 @@ import Image from "next/image";
 import SignIn from "./authentication/SignIn";
 import { Progress } from "./ui/progress";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
+import * as NProgress from "nprogress";
 
 interface Course {
   id: string;
@@ -23,7 +24,6 @@ export default function Card({ course }: { course: Course }) {
   function handleRedirect() {
     if (session.status === "authenticated") {
       router.push(`/course/${course.id}`);
-      console.log(session);
     } else {
       setShowForm(true);
     }

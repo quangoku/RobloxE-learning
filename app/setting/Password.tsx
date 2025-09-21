@@ -108,9 +108,7 @@ export default function Password() {
               type="password"
               name="confirmPassword"
             ></Input>
-            <Button className="cursor-pointer" type="submit">
-              Change Password
-            </Button>
+            <SubmitButton></SubmitButton>
           </form>
         </>
       ) : (

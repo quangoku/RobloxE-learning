@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
-      if (account.provider === "google") {
+      if (account?.provider === "google") {
         const existingUser = await prisma.user.findUnique({
           where: { email: user.email },
         });
@@ -52,7 +52,7 @@ export const authOptions: NextAuthOptions = {
             where: {
               provider_providerAccountId: {
                 provider: "google",
-                providerAccountId: profile.sub,
+                providerAccountId: profile?.sub,
               },
             },
             update: {},
@@ -61,12 +61,12 @@ export const authOptions: NextAuthOptions = {
               provider: "google",
               providerAccountId: profile?.sub,
               type: "oauth",
-              access_token: account.access_token!,
-              refresh_token: account.refresh_token!,
-              expires_at: account.expires_at!,
-              token_type: account.token_type!,
-              scope: account.scope,
-              id_token: account.id_token,
+              access_token: account?.access_token,
+              refresh_token: account?.refresh_token,
+              expires_at: account?.expires_at,
+              token_type: account?.token_type,
+              scope: account?.scope,
+              id_token: account?.id_token,
             },
           });
           return true;

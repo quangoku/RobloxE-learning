@@ -1,8 +1,8 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const session = await getServerSession(authOptions);
 
@@ -17,6 +17,7 @@ export async function GET(req: NextRequest) {
       where: { id: session.user.id },
       select: { password: true },
     });
+
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }

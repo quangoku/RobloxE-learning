@@ -14,7 +14,7 @@ export default function ThemeToggle() {
         setTheme(theme === "light" ? "dark" : "light");
       }}
     >
-      {theme === "dark" ? <FaSun></FaSun> : <FaMoon></FaMoon>}
+      {theme === "dark" ? <FaSun /> : <FaMoon />}
     </Button>
   );
 }

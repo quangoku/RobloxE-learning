@@ -46,7 +46,9 @@ export default function Profile() {
       if (res.ok) {
         const data = await res.json();
         await session.update({ image: data.url });
-        toast.success("Updated successfully", { action: { label: "X" } });
+        toast.success("Updated successfully", {
+          action: { label: "X", onClick: () => {} },
+        });
       }
     } catch (err) {
       console.log(err);
@@ -121,7 +123,11 @@ export default function Profile() {
                 <Button type="submit" className="cursor-pointer">
                   Submit
                 </Button>
-                <p>{file.name}</p>
+                <p>
+                  {file.name.length > 15
+                    ? file.name.slice(0, 10) + "..."
+                    : file.name}
+                </p>
                 <p
                   className="text-red-400 ml-5 cursor-pointer"
                   onClick={() => {

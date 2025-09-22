@@ -5,6 +5,7 @@ import { authOptions } from "./api/auth/[...nextauth]/route";
 export default async function Home() {
   const rawCourses = await getAllCourse();
   const session = await getServerSession(authOptions);
+
   let courses;
   if (session?.user) {
     courses = await Promise.all(
@@ -18,7 +19,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="flex justify-center  flex-wrap gap-3">
+    <div className="flex justify-center  flex-wrap gap-3 ">
       {courses.length === 0 ? (
         <p>No courses available</p>
       ) : (

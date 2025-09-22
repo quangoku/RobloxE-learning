@@ -11,7 +11,6 @@ type LoginProps = {
 
 export default function SignIn({ onClose }: LoginProps) {
   const [data, setData] = useState({ email: "", password: "" });
-  const [err, setErr] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [openSignUp, setOpenSignUp] = useState(false);
 
@@ -83,9 +82,6 @@ export default function SignIn({ onClose }: LoginProps) {
               )}
             </button>
           </div>
-
-          {/* Error */}
-          {err && <p className="text-red-500 text-sm">{err}</p>}
 
           {/* Login button */}
           <button

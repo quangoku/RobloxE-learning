@@ -2,12 +2,10 @@ import React from "react";
 import {
   getLessonsByCourseId,
   getVideoPlayBackIdByLessonId,
-  ToggleUserProgress,
   isFinishedProgress,
 } from "@/lib/data";
 import Link from "next/link";
 import Video from "@/components/Video";
-import { Button } from "@/components/ui/button";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import ToggleProgress from "./ToggleProgress";
@@ -20,10 +18,9 @@ export default async function page({
   const { courseId, lessonId } = await params;
   const lessons = await getLessonsByCourseId(courseId);
   const currentLesson = lessons.find((l) => l.id === lessonId);
-  const videoPlayBackId = await getVideoPlayBackIdByLessonId(currentLesson?.id);
+  const videoPlayBackId = await getVideoPlayBackIdByLessonId(currentLesson.id);
   const session = await getServerSession(authOptions);
-  const isDone = await isFinishedProgress(session?.user.id, lessonId);
-
+  const isDone = await isFinishedProgress(session?.user?.id, lessonId);
   return (
     <div className="flex h-screen  ">
       <div className="w-1/4 border-r p-4 space-y-4 ">
@@ -47,16 +44,20 @@ export default async function page({
 
           <ToggleProgress
             isDone={isDone}
-            userId={session?.user.id}
+            userId={session?.user?.id}
             lessonId={lessonId}
           ></ToggleProgress>
         </div>
         {/*video*/}
         <div className="flex-1  flex items-center justify-center  p-2 ">
-          <Video
-            videoPlayBackId={videoPlayBackId}
-            key={videoPlayBackId}
-          ></Video>
+          {videoPlayBackId ? (
+            <Video
+              videoPlayBackId={videoPlayBackId}
+              key={videoPlayBackId}
+            ></Video>
+          ) : (
+            "Video not found"
+          )}
         </div>
       </div>
     </div>

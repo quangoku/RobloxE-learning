@@ -5,7 +5,6 @@ import SignIn from "./authentication/SignIn";
 import { Progress } from "./ui/progress";
 import { useSession } from "next-auth/react";
 import { useRouter } from "nextjs-toploader/app";
-import * as NProgress from "nprogress";
 
 interface Course {
   id: string;

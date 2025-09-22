@@ -27,6 +27,7 @@ export default function ToggleProgress({
           description: new Date(res.updatedAt).toLocaleString("en-US"),
           action: {
             label: "x",
+            onClick: () => {},
           },
         });
       }

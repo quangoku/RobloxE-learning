@@ -19,8 +19,8 @@ export default function UserIcon() {
       <DropdownMenuTrigger className="rounded-full">
         <Image
           src={
-            session.data.user?.image
-              ? session.data.user?.image
+            session.data?.user?.image
+              ? session.data.user.image
               : "/RobloxIcon.svg"
           }
           alt="User img"
@@ -33,7 +33,7 @@ export default function UserIcon() {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer" asChild>
-          <a href={"/setting"}>Profile</a>
+          <Link href={"/setting"}>Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem
           className="cursor-pointer"

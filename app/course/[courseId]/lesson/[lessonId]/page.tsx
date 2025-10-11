@@ -16,10 +16,10 @@ export default async function page({
   params: Promise<{ courseId: string; lessonId: string }>;
 }) {
   const { courseId, lessonId } = await params;
+  const session = await getServerSession(authOptions);
   const lessons = await getLessonsByCourseId(courseId);
   const currentLesson = lessons.find((l) => l.id === lessonId);
-  const videoPlayBackId = await getVideoPlayBackIdByLessonId(currentLesson.id);
-  const session = await getServerSession(authOptions);
+  const videoPlayBackId = currentLesson?.Video?.playbackId;
   const isDone = await isFinishedProgress(session?.user?.id, lessonId);
   return (
     <div className="flex h-screen  ">

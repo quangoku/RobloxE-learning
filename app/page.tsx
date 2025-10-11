@@ -10,7 +10,7 @@ export default async function Home() {
   if (session?.user) {
     courses = await Promise.all(
       rawCourses.map(async (course) => {
-        const progress = await getUserProgress(course.id, session?.user.id);
+        const progress = await getUserProgress(course.id, session?.user?.id);
         return { ...course, progress };
       })
     );

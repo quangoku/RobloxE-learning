@@ -8,6 +8,9 @@ export async function getCourseById(id: string) {
     where: {
       id: id,
     },
+    include: {
+      Lessons: true,
+    },
   });
   return course;
 }
@@ -18,6 +21,9 @@ export async function getLessonsByCourseId(courseId: string) {
     },
     orderBy: {
       position: "asc",
+    },
+    include: {
+      Video: true,
     },
   });
   return lessons;

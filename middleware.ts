@@ -1,3 +1,8 @@
-export { default } from "next-auth/middleware";
+// middleware.ts
+import { withAuth } from "next-auth/middleware";
 
-export const config = { matcher: ["/course/:path*", "/setting/:path*"] };
+export default withAuth({});
+
+export const config = {
+  matcher: ["/course/:path*", "/setting/:path*"], // chỉ bảo vệ 2 route này
+};

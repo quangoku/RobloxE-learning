@@ -5,7 +5,7 @@ import {
   isFinishedProgress,
 } from "@/lib/data";
 import Link from "next/link";
-import Video from "@/components/Video";
+import Video from "./Video";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import ToggleProgress from "./ToggleProgress";

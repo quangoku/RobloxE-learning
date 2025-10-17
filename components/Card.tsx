@@ -10,7 +10,7 @@ interface Course {
   id: string;
   title: string;
   description: string;
-  image: string;
+  image: string | null;
   progress: number;
 }
 

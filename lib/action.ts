@@ -67,7 +67,11 @@ export async function changePassword(formData: FormData) {
       where: { id: session.user.id },
     });
 
-    const isMatch = await bcrypt.compare(currentPassword, user?.password);
+    if (!user?.password) {
+      return { success: false, message: "user haven't set have password" };
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) {
       return { success: false, message: "Current password is incorrect" };
     }
@@ -96,7 +100,7 @@ export async function setPassword(formData: FormData) {
     }
     const session = await getServerSession(authOptions);
     const salt = await bcrypt.genSalt(10);
-    const hashedPasswrod = await bcrypt.hash(password, salt);
+    const hashedPasswrod = await bcrypt.hash(password as string, salt);
 
     await prisma.user.update({
       where: { id: session?.user?.id },

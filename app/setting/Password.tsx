@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { changePassword, setPassword } from "@/lib/action";
@@ -26,21 +25,21 @@ export default function Password() {
     const confirmPassword = formData.get("confirmPassword") as string;
 
     if (!currentPassword || !newPassword || !confirmPassword) {
-      return toast.warning("Please fill in all fields", {
+      toast.warning("Please fill in all fields", {
         duration: 3000,
         action: { label: "X", onClick: () => {} },
       });
     }
 
     if (newPassword.length < 6) {
-      return toast.warning("New password must be at least 6 characters", {
+      toast.warning("New password must be at least 6 characters", {
         duration: 3000,
         action: { label: "X", onClick: () => {} },
       });
     }
 
     if (newPassword !== confirmPassword) {
-      return toast.warning("Passwords didn't match", {
+      toast.warning("Passwords didn't match", {
         duration: 3000,
         action: { label: "X", onClick: () => {} },
       });

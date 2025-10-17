@@ -12,7 +12,7 @@ export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [newUsername, setNewUsername] = useState("");
   const [file, setFile] = useState<File | null>(null);
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (data?.user?.name) {
@@ -38,7 +38,9 @@ export default function Profile() {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append("file", file);
+      if (file) {
+        formData.append("image", file);
+      }
       const res = await fetch("/api/user/uploadAvatar", {
         method: "post",
         body: formData,
@@ -112,7 +114,7 @@ export default function Profile() {
               <Button
                 variant="outline"
                 onClick={() => {
-                  inputRef.current.click();
+                  inputRef.current?.click();
                 }}
                 className="cursor-pointer"
               >
@@ -144,10 +146,12 @@ export default function Profile() {
               name="file"
               hidden
               onChange={(e) => {
-                if (e.target.files[0].size > 2 * 1024 * 1024) {
+                const f = e.target.files?.[0];
+                if (!f) return;
+                if (f.size > 2 * 1024 * 1024) {
                   toast.warning("File's Size too large");
                 } else {
-                  setFile(e.target.files[0]);
+                  setFile(f);
                 }
               }}
             />

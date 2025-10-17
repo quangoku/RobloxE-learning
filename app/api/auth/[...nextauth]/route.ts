@@ -23,6 +23,9 @@ export const authOptions: NextAuthOptions = {
           },
         });
         if (user) {
+          if (!credentials?.password || !user.password) {
+            return null;
+          }
           const isCorrectPassword = await bcrypt.compare(
             credentials?.password,
             user.password
@@ -43,11 +46,11 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
-      if (account?.provider === "google") {
+      if (account?.provider === "google" && user?.email) {
         const existingUser = await prisma.user.findUnique({
           where: { email: user.email },
         });
-        if (existingUser) {
+        if (existingUser && profile?.sub && account?.access_token) {
           await prisma.account.upsert({
             where: {
               provider_providerAccountId: {

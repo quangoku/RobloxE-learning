@@ -1,15 +1,11 @@
 import React from "react";
-import {
-  getLessonsByCourseId,
-  getVideoPlayBackIdByLessonId,
-  isFinishedProgress,
-} from "@/lib/data";
+import { getLessonsByCourseId, isFinishedProgress } from "@/lib/data";
 import Link from "next/link";
 import Video from "./Video";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import ToggleProgress from "./ToggleProgress";
-
+import { redirect } from "next/navigation";
 export default async function page({
   params,
 }: {
@@ -20,6 +16,9 @@ export default async function page({
   const lessons = await getLessonsByCourseId(courseId);
   const currentLesson = lessons.find((l) => l.id === lessonId);
   const videoPlayBackId = currentLesson?.Video?.playbackId;
+  if (!session?.user?.id) {
+    redirect("/");
+  }
   const isDone = await isFinishedProgress(session?.user?.id, lessonId);
   return (
     <div className="flex h-screen  ">

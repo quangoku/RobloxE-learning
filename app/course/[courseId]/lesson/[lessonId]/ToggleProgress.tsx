@@ -9,7 +9,7 @@ export default function ToggleProgress({
   userId,
   lessonId,
 }: {
-  isDone: boolean;
+  isDone: boolean | undefined;
   userId: string;
   lessonId: string;
 }) {

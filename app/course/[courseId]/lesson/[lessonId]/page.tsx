@@ -21,8 +21,8 @@ export default async function page({
   }
   const isDone = await isFinishedProgress(session?.user?.id, lessonId);
   return (
-    <div className="flex h-screen  ">
-      <div className="w-1/4 border-r p-4 space-y-4 ">
+    <div className="flex h-screen md:flex-row flex-col ">
+      <div className="md:w-1/4 border-r w-full p-4 space-y-4 ">
         {lessons.map((lesson) => (
           <div
             key={lesson.id}

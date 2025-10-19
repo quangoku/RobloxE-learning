@@ -1,5 +1,5 @@
 "use server";
-import prisma from "./prisma";
+import prisma from "../../lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import bcrypt from "bcryptjs";

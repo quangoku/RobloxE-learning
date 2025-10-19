@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { ToggleUserProgress } from "@/lib/action";
+import { ToggleUserProgress } from "@/app/actions/user";
 import { toast } from "sonner";
 import React, { useState } from "react";
 

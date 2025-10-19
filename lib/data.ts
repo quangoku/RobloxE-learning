@@ -72,3 +72,26 @@ export async function getUserProgress(courseId: string, userId: string) {
   }
   return Math.floor((finished.length / lessons.length) * 100);
 }
+export async function getCommentsByCourseId(courseId: string) {
+  const comments = await prisma.comment.findMany({
+    where: {
+      courseId: courseId,
+    },
+    select: {
+      id: true,
+      content: true,
+      createdAt: true,
+      user: {
+        select: {
+          name: true,
+          image: true,
+          id: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return comments;
+}

@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const formData = await req.formData();
-    const file = formData.get("file");
+    const file = formData.get("image");
 
     if (!file || !(file instanceof File)) {
       return NextResponse.json({ message: "File not found" }, { status: 404 });

@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
-import { changePassword, setPassword } from "@/lib/action";
+import { changePassword, setPassword } from "@/app/actions/user";
 import { toast } from "sonner";
 import SubmitButton from "./SubmitButton";
 export default function Password() {
@@ -107,7 +107,7 @@ export default function Password() {
               type="password"
               name="confirmPassword"
             ></Input>
-            <SubmitButton></SubmitButton>
+            <SubmitButton text="Set Password"></SubmitButton>
           </form>
         </>
       ) : (
@@ -126,7 +126,7 @@ export default function Password() {
               type="password"
               name="confirmPassword"
             ></Input>
-            <SubmitButton></SubmitButton>
+            <SubmitButton text="Set Password"></SubmitButton>
           </form>
         </>
       )}

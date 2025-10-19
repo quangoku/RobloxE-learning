@@ -20,12 +20,12 @@ export default function NavBar() {
   const [showForm, setShowForm] = useState(false);
   const session = useSession();
   return (
-    <div className="flex items-center justify-center px-10 py-3 border-b-2 relative mb-3">
+    <div className="flex items-center justify-center px-10 py-3 border-b-2 relative mb-3 h-15 ">
       <Link className="absolute left-10" href={"/"}>
         <Image src="/RobloxIcon.svg" alt="Logo" width={50} height={50} />
       </Link>
 
-      <NavigationMenu viewport={false}>
+      <NavigationMenu viewport={false} className="hidden md:block ">
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuLink href="/" className="font-medium">

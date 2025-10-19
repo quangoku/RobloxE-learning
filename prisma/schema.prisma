@@ -25,6 +25,7 @@ model User {
   updatedAt     DateTime       @default(now())
   Accounts      Account[]
   UserProgress  UserProgress[]
+  Comment       Comment[]
 }
 
 model Account {
@@ -46,13 +47,14 @@ model Account {
 }
 
 model Course {
-  id          String   @id @default(uuid())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   title       String
   description String
   image       String?
   Lessons     Lesson[]
+  Comment     Comment[]
 }
 
 model Lesson {
@@ -89,4 +91,16 @@ model UserProgress {
   lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 
   @@unique([userId, lessonId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  userId    String
+  courseId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
